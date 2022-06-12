@@ -1,0 +1,33 @@
+###
+GRPC localhost:8080/barservice.Bar/orderDrink
+
+{
+  "drink": {
+    "type": "WINE"
+  }
+}
+
+###
+GRPC localhost:8080/barservice.Bar/orderMultipleDrinks
+
+{
+  "drinks": [
+    {
+      "type": "BEER"
+    },
+    {
+      "type": "WINE"
+    }
+  ]
+}
+
+###
+GRPC localhost:8080/barservice.Bar/getBillsStatus
+
+###
+GRPC localhost:8080/barservice.Bar/payBill
+
+{
+  "billId": "57148a3c-d23b-4984-ac35-dda01864b4e5",
+  "paymentAmount": 500
+}

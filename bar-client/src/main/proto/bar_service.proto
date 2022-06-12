@@ -1,0 +1,82 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+
+option java_multiple_files = true;
+option java_package = "barservice.generated";
+option java_outer_classname = "BarService";
+
+package barservice;
+
+service Bar {
+
+  // Orders a requested drink from the bar counter
+  rpc orderDrink (DrinkRequest) returns (DrinkResponse) {}
+
+  // Orders multiple requested drinks from the bar counter
+  rpc orderMultipleDrinks (DrinksRequest) returns (DrinkResponse) {}
+
+  // Pay a certain bill with a specific amount
+  rpc payBill (PaymentRequest) returns (PaymentResponse) {}
+
+  // Get historic bills with its status
+  rpc getBillsStatus (BillsStatusRequest) returns (BillsStatusResponse) {}
+}
+
+message DrinkRequest {
+  Drink drink = 1;
+}
+
+message DrinksRequest {
+  repeated Drink drinks = 1;
+}
+
+message DrinkResponse {
+  Bill bill = 2;
+}
+
+message PaymentRequest {
+  string billId = 1;
+  uint64 paymentAmount = 2;
+}
+
+message PaymentResponse {
+  PaymentStatus status = 1;
+  uint64 change = 2;
+  string reason = 3;
+}
+
+message BillsStatusRequest {
+  optional string id = 1;
+  optional PaymentStatus status = 2;
+}
+
+message BillsStatusResponse {
+  map<string, PaymentStatus> bills = 1;
+}
+
+enum PaymentStatus {
+  PAID = 0;
+  PENDING = 1;
+  FAILED = 2;
+}
+
+message Drink {
+  string name = 1;
+  DrinkType type = 2;
+}
+
+enum DrinkType {
+  NONE = 0;
+  BEER = 1;
+  WHISKY = 2;
+  GIN = 3;
+  RUM = 4;
+  VODKA = 5;
+  WINE = 6;
+}
+
+message Bill {
+  string id = 1;
+  uint64 amount = 2;
+  google.protobuf.Timestamp timestamp = 3;
+}
