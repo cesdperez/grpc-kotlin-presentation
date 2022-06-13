@@ -113,8 +113,12 @@ class BarServer(private val port: Int) {
         }
 
         override suspend fun getBillsStatus(request: BillsStatusRequest): BillsStatusResponse {
+            val filtered = billStatus
+                .filter { !request.hasId() || it.key == request.id }
+                .filter { !request.hasStatus() || it.value == request.status }
+
             return billsStatusResponse {
-                bills.putAll(billStatus)
+                bills.putAll(filtered)
             }
         }
 
