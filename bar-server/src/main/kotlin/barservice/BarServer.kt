@@ -6,6 +6,7 @@ import io.grpc.Server
 import io.grpc.ServerBuilder
 import io.grpc.Status
 import io.grpc.StatusException
+import io.grpc.protobuf.services.ProtoReflectionService
 import java.time.Instant
 import java.util.*
 
@@ -21,6 +22,7 @@ class BarServer(private val port: Int) {
     private val server: Server = ServerBuilder
         .forPort(port)
         .addService(BarService())
+        .addService(ProtoReflectionService.newInstance())
         .build()
 
     fun start() {
